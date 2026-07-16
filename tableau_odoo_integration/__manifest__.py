@@ -1,0 +1,21 @@
+{
+    'name': 'Odoo Tableau Connector',
+    'sequence': 10,
+    'summary': 'Token-based API endpoint for Odoo Tableau integration',
+    'category': 'Generic Modules',
+    'version': '19.0.1.0.0',
+    'license': 'Other proprietary',
+    'author': "Infintor Solutions",
+    "price": 50,
+    "currency": 'USD',
+    'website': "https://www.infintor.com",
+    'depends': ['base'],
+    'images': ['static/description/banner.jpg'],
+    'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'views/api_token_views.xml',
+    ],
+    'installable': True,
+    'application': True,
+}

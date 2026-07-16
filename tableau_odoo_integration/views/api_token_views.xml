@@ -1,0 +1,335 @@
+<odoo>
+
+    <!-- ===================== API TOKEN ===================== -->
+
+    <record id="view_tableau_api_token_tree" model="ir.ui.view">
+        <field name="name">tableau.api.token.list</field>
+        <field name="model">tableau.api.token</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tableau_api_token_form" model="ir.ui.view">
+        <field name="name">tableau.api.token.form</field>
+        <field name="model">tableau.api.token</field>
+        <field name="arch" type="xml">
+            <form string="API Access Token">
+                <sheet>
+                    <header>
+                        <button name="action_generate_token"
+                                string="Generate Token"
+                                type="object"
+                                class="btn-success"
+                                icon="fa-refresh"
+                                invisible="id"/>
+                    </header>
+                    <h1>
+                        <field name="user_id"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="name"
+                                   readonly="1"
+                                   placeholder="No token generated yet"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tableau_api_token" model="ir.actions.act_window">
+        <field name="name">API Tokens</field>
+        <field name="res_model">tableau.api.token</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- ===================== TABLEAU MODEL ===================== -->
+
+    <record id="view_tableau_model_tree" model="ir.ui.view">
+        <field name="name">tableau.model.list</field>
+        <field name="model">tableau.model</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tableau_model_form" model="ir.ui.view">
+        <field name="name">tableau.model.form</field>
+        <field name="model">tableau.model</field>
+        <field name="arch" type="xml">
+            <form string="Tableau Table Setup">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Display Name (for Tableau BI)"/>
+                        </h1>
+                        <div class="d-flex align-items-center mt-2">
+                            <field name="active" class="me-2"/>
+                            <label for="active">Active</label>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="model_id" required="1"
+                                   invisible="not active"
+                                   placeholder="Choose Odoo Model..."/>
+                        </group>
+                    </group>
+
+                    <group string="Fields to Expose in Tableau" colspan="2">
+                        <field name="field_ids" widget="many2many_tags"
+                               placeholder="Select fields to expose in Tableau BI"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tableau_models" model="ir.actions.act_window">
+        <field name="name">Tableau Models</field>
+        <field name="res_model">tableau.model</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- ===================== API AUDIT TRAIL ===================== -->
+
+    <record id="view_tableau_api_audit_form" model="ir.ui.view">
+        <field name="name">tableau.api.audit.form</field>
+        <field name="model">tableau.api.audit</field>
+        <field name="arch" type="xml">
+            <form string="API Audit Trail">
+                <sheet>
+                    <group>
+                        <field name="called_at" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="user_id" readonly="1"/>
+                        <field name="token_id" readonly="1"/>
+                        <field name="response_status" readonly="1"/>
+                        <field name="request_info" readonly="1" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tableau_api_audit_tree" model="ir.ui.view">
+        <field name="name">tableau.api.audit.list</field>
+        <field name="model">tableau.api.audit</field>
+        <field name="arch" type="xml">
+            <list string="API Audit Trail">
+                <field name="called_at"/>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="token_id"/>
+                <field name="response_status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tableau_api_audit" model="ir.actions.act_window">
+        <field name="name">API Audit Trail</field>
+        <field name="res_model">tableau.api.audit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- ===================== MENUS ===================== -->
+
+    <menuitem id="menu_tableau_api_root"
+              name="Tableau Connector"
+              web_icon="tableau_odoo_integration,static/description/icon.png"/>
+
+    <menuitem id="menu_tableau_api_token"
+              name="API Tokens"
+              parent="menu_tableau_api_root"
+              action="action_tableau_api_token"
+              sequence="10"/>
+
+    <menuitem id="menu_tableau_models"
+              name="Models"
+              parent="menu_tableau_api_root"
+              action="action_tableau_models"
+              sequence="20"/>
+
+    <menuitem id="menu_tableau_api_audit_root"
+              parent="menu_tableau_api_root"
+              name="Audit Trail"
+              action="action_tableau_api_audit"
+              sequence="30"/>
+
+</odoo>
+
+<!--<odoo>-->
+<!--    <record id="view_tableau_api_token_tree" model="ir.ui.view">-->
+<!--        <field name="name">tableau.api.token.tree</field>-->
+<!--        <field name="model">tableau.api.token</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <list>-->
+<!--                <field name="name"/>-->
+<!--                <field name="user_id"/>-->
+<!--                <field name="active"/>-->
+<!--            </list>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+<!--    <record id="view_tableau_api_token_form" model="ir.ui.view">-->
+<!--        <field name="name">tableau.api.token.form</field>-->
+<!--        <field name="model">tableau.api.token</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="API Access Token">-->
+<!--                <sheet>-->
+<!--                    <header>-->
+<!--                        <button name="action_generate_token"-->
+<!--                                string="Generate Token"-->
+<!--                                type="object"-->
+<!--                                class="btn-success"-->
+<!--                                icon="fa-refresh"-->
+<!--                                invisible="id"/>-->
+<!--                    </header>-->
+<!--                    <h1>-->
+<!--                        <field name="user_id"/>-->
+<!--                    </h1>-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="name"-->
+<!--                                   readonly="1"-->
+<!--                                   placeholder="No token generated yet"/>-->
+<!--                            &lt;!&ndash; "Generate" button, only visible on NEW records &ndash;&gt;-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="active"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+<!--    <record id="action_tableau_api_token" model="ir.actions.act_window">-->
+<!--        <field name="name">API Tokens</field>-->
+<!--        <field name="res_model">tableau.api.token</field>-->
+<!--        <field name="view_mode">list,form</field>-->
+<!--    </record>-->
+
+
+<!--    <record id="view_tableau_model_tree" model="ir.ui.view">-->
+<!--        <field name="name">tableau.model.tree</field>-->
+<!--        <field name="model">tableau.model</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <list>-->
+<!--                <field name="name"/>-->
+<!--                <field name="model_id"/>-->
+<!--                <field name="active"/>-->
+<!--            </list>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="view_tableau_model_form" model="ir.ui.view">-->
+<!--        <field name="name">tableau.model.form</field>-->
+<!--        <field name="model">tableau.model</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Tableau Table Setup">-->
+<!--                <sheet>-->
+<!--                    <div class="oe_title">-->
+<!--                        <h1>-->
+<!--                            <field name="name" placeholder="Display Name (for Tableau BI)"/>-->
+<!--                        </h1>-->
+<!--                        <div class="d-flex align-items-center mt-2">-->
+<!--                            <field name="active" class="me-2"/>-->
+<!--                            <label for="active">Active</label>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="model_id" required="1"-->
+<!--                                   invisible="not active"-->
+<!--                                   placeholder="Choose Odoo Model..."/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+
+<!--                    <group string="Fields to Expose in Tableau" colspan="2">-->
+<!--                        <field name="field_ids" widget="many2many_tags"-->
+<!--                               placeholder="Select fields to expose in Tableau BI"-->
+<!--                               options="{'no_create': True, 'no_open': True}"/>-->
+<!--                    </group>-->
+
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+<!--    <record id="action_tableau_models" model="ir.actions.act_window">-->
+<!--        <field name="name">Tableau Models</field>-->
+<!--        <field name="res_model">tableau.model</field>-->
+<!--        <field name="view_mode">list,form</field>-->
+<!--    </record>-->
+
+
+<!--    <record id="view_tableau_api_audit_form" model="ir.ui.view">-->
+<!--        <field name="name">tableau.api.audit.form</field>-->
+<!--        <field name="model">tableau.api.audit</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="API Audit Trail">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="called_at" readonly="1"/>-->
+<!--                        <field name="name" readonly="1"/>-->
+<!--                        <field name="user_id" readonly="1"/>-->
+<!--                        <field name="token_id" readonly="1"/>-->
+<!--                        <field name="response_status" readonly="1"/>-->
+<!--                        <field name="request_info" readonly="1" widget="text"/>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+<!--    <record id="view_tableau_api_audit_tree" model="ir.ui.view">-->
+<!--        <field name="name">tableau.api.audit.tree</field>-->
+<!--        <field name="model">tableau.api.audit</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <list string="API Audit Trail">-->
+<!--                <field name="called_at"/>-->
+<!--                <field name="name"/>-->
+<!--                <field name="user_id"/>-->
+<!--                <field name="token_id"/>-->
+<!--                <field name="response_status"/>-->
+<!--            </list>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="action_tableau_api_audit" model="ir.actions.act_window">-->
+<!--        <field name="name">API Audit Trail</field>-->
+<!--        <field name="res_model">tableau.api.audit</field>-->
+<!--        <field name="view_mode">list,form</field>-->
+<!--    </record>-->
+
+
+<!--    <menuitem id="menu_tableau_api_root" name="Tableau Connector" web_icon="tableau_odoo_integration,static/description/icon.png"/>-->
+<!--    <menuitem id="menu_tableau_api_token" name="API Tokens" parent="menu_tableau_api_root" action="action_tableau_api_token" sequence="10"/>-->
+<!--    <menuitem id="menu_tableau_models" name="Models" parent="menu_tableau_api_root" action="action_tableau_models" sequence="20"/>-->
+<!--    <menuitem id="menu_tableau_api_audit_root" parent="menu_tableau_api_root" name="Audit Trail" action="action_tableau_api_audit" sequence="30"/>-->
+
+<!--</odoo>-->
