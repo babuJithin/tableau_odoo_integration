@@ -1,4 +1,7 @@
+import secrets
+
 from odoo import models, fields, api
+
 
 class ApiTokenTableau(models.Model):
     _name = 'tableau.api.token'
@@ -12,16 +15,13 @@ class ApiTokenTableau(models.Model):
         ('name_uniq', 'unique(name)', 'Token must be unique!'),
     ]
 
-
     @api.model
     def _generate_token(self):
-        import secrets
         return secrets.token_urlsafe(32)
 
     def action_generate_token(self):
         for rec in self:
             rec.name = self._generate_token()
-
 
 
 class TableauModel(models.Model):
@@ -36,9 +36,10 @@ class TableauModel(models.Model):
         'tableau_model_id',
         'field_id',
         string='Odoo Fields',
-        domain="[('model_id', '=', model_id)]"
+        domain="[('model_id', '=', model_id)]",
     )
     active = fields.Boolean('Active', default=True)
+
 
 class ApiAuditTrailTableau(models.Model):
     _name = 'tableau.api.audit'
@@ -50,57 +51,3 @@ class ApiAuditTrailTableau(models.Model):
     called_at = fields.Datetime('Called At', default=fields.Datetime.now)
     request_info = fields.Text('Request Info')
     response_status = fields.Char('Status')
-
-# from odoo import models, fields, api
-#
-#
-# class ApiTokenTableau(models.Model):
-#     _name = 'tableau.api.token'
-#     _description = 'API Access Token'
-#
-#     name = fields.Char('Token', copy=False)
-#     user_id = fields.Many2one('res.users', 'User', required=True)
-#     active = fields.Boolean('Active', default=True)
-#
-#     _name_uniq = models.Constraint(
-#         'unique(name)',
-#         'Token must be unique!',
-#     )
-#
-#     @api.model
-#     def _generate_token(self):
-#         import secrets
-#         return secrets.token_urlsafe(32)
-#
-#     def action_generate_token(self):
-#         for rec in self:
-#             rec.name = self._generate_token()
-#
-#
-# class TableauModel(models.Model):
-#     _name = 'tableau.model'
-#     _description = 'Tableau Exposed Model'
-#
-#     name = fields.Char('Display Name', required=True)
-#     model_id = fields.Many2one('ir.model', string='Odoo Model', required=True, ondelete='cascade')
-#     field_ids = fields.Many2many(
-#         'ir.model.fields',
-#         'tableau_model_ir_model_fields_rel',
-#         'tableau_model_id',
-#         'field_id',
-#         string='Odoo Fields',
-#         domain="[('model_id', '=', model_id)]"
-#     )
-#     active = fields.Boolean('Active', default=True)
-#
-#
-# class ApiAuditTrailTableau(models.Model):
-#     _name = 'tableau.api.audit'
-#     _description = 'API Audit Trail'
-#
-#     name = fields.Char('API Endpoint', required=True)
-#     user_id = fields.Many2one('res.users', string='User')
-#     token_id = fields.Many2one('tableau.api.token', string='API Token')
-#     called_at = fields.Datetime('Called At', default=fields.Datetime.now)
-#     request_info = fields.Text('Request Info')
-#     response_status = fields.Char('Status')
