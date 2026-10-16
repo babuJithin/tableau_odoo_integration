@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_tableau_api_token,tableau.api.token,tableau.api.token,tableau_odoo_integration.group_tableau_api_manager,crud,
+access_tableau_model,tableau.model,tableau.model,tableau_odoo_integration.group_tableau_api_manager,crud,
+access_tableau_api_audit,access_tableau_api_audit,tableau.api.audit,tableau_odoo_integration.group_tableau_api_manager,crud,

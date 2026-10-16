@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_tableau_api_token,tableau.api.token,model_tableau_api_token,group_tableau_api_manager,1,1,1,1
-access_tableau_model,tableau.model,model_tableau_model,group_tableau_api_manager,1,1,1,1
-access_tableau_api_audit,access_tableau_api_audit,model_tableau_api_audit,group_tableau_api_manager,1,1,1,1
-

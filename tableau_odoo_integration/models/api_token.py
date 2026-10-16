@@ -11,9 +11,10 @@ class ApiTokenTableau(models.Model):
     user_id = fields.Many2one('res.users', 'User', required=True)
     active = fields.Boolean('Active', default=True)
 
-    _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'Token must be unique!'),
-    ]
+    _name_uniq = models.Constraint(
+        'unique(name)',
+        "Token must be unique!",
+    )
 
     @api.model
     def _generate_token(self):
@@ -28,7 +29,7 @@ class TableauModel(models.Model):
     _name = 'tableau.model'
     _description = 'Tableau Exposed Model'
 
-    name = fields.Char('Display Name', required=True)
+    name = fields.Char('Tableau Display Name', required=True, copy=True)
     model_id = fields.Many2one('ir.model', string='Odoo Model', required=True, ondelete='cascade')
     field_ids = fields.Many2many(
         'ir.model.fields',
@@ -45,7 +46,7 @@ class ApiAuditTrailTableau(models.Model):
     _name = 'tableau.api.audit'
     _description = 'API Audit Trail'
 
-    name = fields.Char('API Endpoint', required=True)
+    name = fields.Char('API Endpoint', required=True, copy=True)
     user_id = fields.Many2one('res.users', string='User')
     token_id = fields.Many2one('tableau.api.token', string='API Token')
     called_at = fields.Datetime('Called At', default=fields.Datetime.now)

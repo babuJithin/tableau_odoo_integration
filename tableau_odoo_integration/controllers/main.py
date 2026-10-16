@@ -4,6 +4,7 @@ import logging
 
 from odoo import http
 from odoo.http import request
+from odoo.tools import BinaryValue
 
 _logger = logging.getLogger(__name__)
 
@@ -157,6 +158,10 @@ class TableauApiController(http.Controller):
                         value = ""
                     elif isinstance(value, (datetime.date, datetime.datetime)):
                         value = value.isoformat()
+                    elif isinstance(value, BinaryValue):
+                        # binary fields hold raw bytes since 20.0; keep the
+                        # base64 string output of previous versions
+                        value = value.to_base64() if value else ""
                     elif isinstance(value, (bytes, bytearray)):
                         value = value.decode('utf-8', errors='replace')
                     elif isinstance(value, (list, tuple)):

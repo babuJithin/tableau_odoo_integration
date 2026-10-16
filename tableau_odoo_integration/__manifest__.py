@@ -3,7 +3,7 @@
     'sequence': 10,
     'summary': 'Token-based API endpoint for Odoo Tableau integration',
     'category': 'Generic Modules',
-    'version': '19.0.1.0.0',
+    'version': '20.0.1.0.0',
     'license': 'Other proprietary',
     'author': "Infintor Solutions",
     "price": 50,
@@ -13,7 +13,7 @@
     'images': ['static/description/banner.jpg'],
     'data': [
         'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/api_token_views.xml',
     ],
     'installable': True,
